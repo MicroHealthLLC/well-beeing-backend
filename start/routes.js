@@ -18,4 +18,5 @@ const Route = use("Route");
 
 Route.group(() => {
   Route.post("auth/register", "UserController.register");
+  Route.post("auth/login", "UserController.login");
 }).prefix("api");

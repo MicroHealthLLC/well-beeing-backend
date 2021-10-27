@@ -1,6 +1,6 @@
 "use strict";
 
-const Reminder = require("../../Models/Reminder");
+const Reminder = use("App/Models/Reminder");
 
 class ReminderController {
   async index({ auth }) {
@@ -13,7 +13,16 @@ class ReminderController {
 
     reminder.fill(request.body);
     await user.reminders().save(reminder);
-    
+
+    return reminder;
+  }
+  async update({ auth, request, params }) {
+    const { id } = params;
+    const reminder = await Reminder.find(id);
+
+    reminder.merge(request.body);
+    await reminder.save();
+
     return reminder;
   }
 }

@@ -22,4 +22,5 @@ Route.group(() => {
 
   Route.get("reminders", "ReminderController.index").middleware("auth");
   Route.post("reminders", "ReminderController.create").middleware("auth");
+  Route.patch("reminders/:id", "ReminderController.update").middleware("auth");
 }).prefix("api");

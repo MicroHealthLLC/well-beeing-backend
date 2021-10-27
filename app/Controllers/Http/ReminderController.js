@@ -1,6 +1,7 @@
 "use strict";
 
 const Reminder = use("App/Models/Reminder");
+const AuthorizationService = use("App/Services/AuthorizationService");
 
 class ReminderController {
   async index({ auth }) {
@@ -17,9 +18,11 @@ class ReminderController {
     return reminder;
   }
   async update({ auth, request, params }) {
+    const user = await auth.getUser();
     const { id } = params;
     const reminder = await Reminder.find(id);
 
+    AuthorizationService.verifyPermission(reminder, user);
     reminder.merge(request.body);
     await reminder.save();
 

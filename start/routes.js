@@ -20,11 +20,7 @@ Route.group(() => {
   Route.post("auth/register", "UserController.register");
   Route.post("auth/login", "UserController.login");
 
-  Route.get("reminders", "ReminderController.index").middleware("auth");
-  Route.get("reminders/:id", "ReminderController.show").middleware("auth");
-  Route.post("reminders", "ReminderController.store").middleware("auth");
-  Route.patch("reminders/:id", "ReminderController.update").middleware("auth");
-  Route.delete("reminders/:id", "ReminderController.destroy").middleware(
-    "auth"
-  );
+  Route.resource("reminders", "ReminderController")
+    .except(["create", "edit"])
+    .middleware("auth");
 }).prefix("api");

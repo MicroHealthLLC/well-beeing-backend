@@ -28,6 +28,14 @@ class ReminderController {
 
     return reminder;
   }
+  async destroy({ auth, request, params }) {
+    const user = await auth.getUser();
+    const { id } = params;
+    const reminder = await Reminder.find(id);
+
+    AuthorizationService.verifyPermission(reminder, user);
+    await reminder.delete();
+  }
 }
 
 module.exports = ReminderController;

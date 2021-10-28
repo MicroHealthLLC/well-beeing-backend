@@ -8,7 +8,15 @@ class ReminderController {
     const user = await auth.getUser();
     return await user.reminders().fetch();
   }
-  async create({ auth, request }) {
+  async show({ auth, params }) {
+    const user = await auth.getUser();
+    const { id } = params;
+    const reminder = await Reminder.find(id);
+
+    AuthorizationService.verifyPermission(reminder, user);
+    return reminder;
+  }
+  async store({ auth, request }) {
     const user = await auth.getUser();
     const reminder = new Reminder();
 
